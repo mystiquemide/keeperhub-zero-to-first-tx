@@ -36,7 +36,23 @@ The audit identifies three reproducible inconsistencies in KeeperHub's current `
 - API onboarding describes sponsored gas as mainnet-only even though the gas reference includes supported testnets
 - the beginner CLI page uses Ethereum mainnet chain `1` for its write example while the official safe-first-write guidance says to start on testnet
 
-`UPSTREAM_PATCH.md` contains minimal fixes for those three points.
+These fixes are not only proposed. They have been submitted upstream to KeeperHub as a focused docs PR.
+
+## Upstream contribution
+
+**KeeperHub PR #2043**
+
+https://github.com/KeeperHub/keeperhub/pull/2043
+
+Title: `docs: make first-write onboarding safer and more consistent`
+
+Scope: 3 documentation files, 10 additions, 7 deletions, no runtime or API changes.
+
+The PR:
+
+- clarifies conditional gas sponsorship and asset/value funding
+- aligns API onboarding with supported EVM testnet sponsorship
+- changes the beginner direct-write example from Ethereum mainnet to Sepolia and explicitly recommends testnet first
 
 ## Why it helps
 
@@ -46,8 +62,12 @@ This project keeps the official docs as the source of truth and turns their exec
 
 ## Contribution type
 
-Starter template + onboarding teardown + proposed documentation patch.
+Starter template + onboarding teardown + upstream KeeperHub documentation PR.
 
 ## Repository
 
 https://github.com/mystiquemide/keeperhub-zero-to-first-tx
+
+## Upstream PR
+
+https://github.com/KeeperHub/keeperhub/pull/2043
