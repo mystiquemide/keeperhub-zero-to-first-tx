@@ -1,57 +1,134 @@
-# KeeperHub Zero-to-First-Tx
+# KeeperHub Safe First Write
 
-A practical onboarding resource for new KeeperHub builders who want to go from a fresh account to a verified onchain transaction with the least ambiguity possible.
+A dependency-free starter that turns KeeperHub's first-write safety guidance into an executable path, plus an evidence-based audit of three remaining onboarding inconsistencies.
 
-This project was created after building **Nulvek** for the KeeperHub Agents Onchain Hackathon. It focuses on the points that matter most in the first hour:
+Built after shipping **Nulvek** with KeeperHub for the Agents Onchain Hackathon.
 
-- which authentication path to use
-- where the organization wallet fits
-- how to fund a testnet wallet
-- how to execute a real write
-- how to distinguish an execution ID from a transaction hash
-- how to verify the transaction independently onchain
-- how retries and idempotency behave
-- where to look when execution fails
+## Why this contribution exists
 
-## Why this exists
+KeeperHub already has good onboarding material, including:
 
-KeeperHub already has strong reference documentation for MCP, workflows, the CLI, Direct Execution, wallets, and run logs.
+- `docs/guides/first-verified-transaction.md`
+- the built-in `kh doctor` command
+- dedicated Browser, Agent/MCP, API, and CLI getting-started paths
 
-The onboarding gap is different: a new builder has to mentally join those pages into one causal path.
+So this repo deliberately does **not** add another generic tutorial or another doctor command.
 
-For a hackathon centered on **real execution**, the most useful first-run path is:
+Instead it contributes two things that are still useful:
 
-`account -> wallet -> gas -> auth -> execute -> execution ID -> transaction hash -> explorer -> retry model`
+1. **An executable safe-first-write starter** that applies the official guidance by default.
+2. **A reproducible docs consistency audit** with small upstream fixes that remove contradictory first-run expectations.
 
-This repo turns that into one linear guide.
+## What the starter enforces
 
-## Start here
+The starter:
 
-1. [`ZERO_TO_FIRST_TX.md`](ZERO_TO_FIRST_TX.md)
-2. [`FRICTION_REPORT.md`](FRICTION_REPORT.md)
-3. [`UPSTREAM_PR_PROPOSAL.md`](UPSTREAM_PR_PROPOSAL.md)
+- validates that the credential is a `kh_` organization key
+- checks the key against `GET /api/keys`
+- reads the live public `GET /api/chains` catalog
+- refuses disabled chains
+- refuses mainnet unless `ALLOW_MAINNET=1` is explicitly set
+- simulates before broadcast
+- defaults to simulation-only mode
+- requires a stable `TASK_ID` before a real write
+- derives a deterministic idempotency key from the task and normalized transfer effect
+- polls the returned KeeperHub execution instead of blindly retrying
+- treats `unconfirmed` as unknown/non-terminal
+- checks KeeperHub receipt evidence before calling the write successful
+- can independently re-fetch the transaction receipt through your own EVM RPC
+- never prints the API key
 
-## Scope
+There are no runtime dependencies beyond Node.js 20+.
 
-This is intentionally narrow.
+## Quick start
 
-It does not replace KeeperHub's official documentation and does not try to document every product surface. It is a first-transaction bridge that links a new builder to the deeper official references once the first write has succeeded.
+Clone and test:
 
-## Official references
+```bash
+git clone https://github.com/mystiquemide/keeperhub-zero-to-first-tx.git
+cd keeperhub-zero-to-first-tx
+npm test
+```
 
-- https://docs.keeperhub.com/quickstart
-- https://docs.keeperhub.com/getting-started/quickstart
-- https://docs.keeperhub.com/api/authentication
-- https://docs.keeperhub.com/api/direct-execution
-- https://docs.keeperhub.com/api/executions
-- https://docs.keeperhub.com/keeper-runs/status-logs
-- https://docs.keeperhub.com/wallet-management/turnkey
-- https://docs.keeperhub.com/cli/quickstart
-- https://docs.keeperhub.com/cli/commands/kh_execute
-- https://docs.keeperhub.com/ai-tools/mcp-server
+Set your KeeperHub organization key and run the read-only onboarding check:
 
-## Bounty intent
+```bash
+export KEEPERHUB_API_KEY=kh_...
+npm run doctor
+```
 
-This project targets the **Best Onboarding UX Improvement** bounty.
+Configure a testnet transfer. Base Sepolia is the default chain, but the script first checks the live KeeperHub chain catalog.
 
-The contribution is a reproducible onboarding teardown plus a proposed documentation patch focused on reducing time-to-first verified transaction.
+```bash
+export CHAIN_ID=84532
+export RECIPIENT_ADDRESS=0x...
+export AMOUNT=0.001
+
+# Optional for ERC-20 transfers. Omit for a native-token transfer.
+export TOKEN_ADDRESS=0x...
+```
+
+Run the first-write flow:
+
+```bash
+npm run first-write
+```
+
+**Nothing is broadcast by default.** The script simulates the exact request and stops.
+
+When you intentionally want to execute the same request:
+
+```bash
+export EXECUTE=1
+export TASK_ID=my-first-transfer-001
+npm run first-write
+```
+
+For an independent EVM receipt check, also set:
+
+```bash
+export RPC_URL=https://your-rpc.example
+```
+
+Mainnet remains blocked unless you deliberately set `ALLOW_MAINNET=1`.
+
+See [`.env.example`](.env.example) for every option.
+
+## The onboarding audit
+
+[`ONBOARDING_AUDIT.md`](ONBOARDING_AUDIT.md) documents three current inconsistencies against KeeperHub's own `staging` documentation:
+
+1. **Funding expectation:** the overview says a first run does not require funding anything, while the gas reference correctly says sponsorship covers fees only, not the transferred asset/value, and is conditional on the execution route.
+2. **Testnet sponsorship wording:** API onboarding describes the allowance as mainnet sponsored gas, while the gas reference lists supported testnets too and says testnet usage is not charged against the monthly cap.
+3. **Beginner CLI default:** the CLI getting-started page demonstrates its first write with Ethereum mainnet chain `1`, while KeeperHub's Safe First-Write Sequence and verified-transaction guide explicitly recommend starting on testnet.
+
+[`UPSTREAM_PATCH.md`](UPSTREAM_PATCH.md) contains the minimal proposed wording changes rather than another competing tutorial.
+
+## Project structure
+
+```text
+scripts/doctor.mjs       Read-only auth + live chain-catalog preflight
+scripts/first-write.mjs  Simulate-first testnet transfer flow
+src/keeperhub.mjs        KeeperHub HTTP, idempotency, polling, RPC helpers
+test/                    Dependency-free Node tests
+ONBOARDING_AUDIT.md      Reproducible onboarding findings
+UPSTREAM_PATCH.md        Minimal upstream documentation patch
+```
+
+## Official KeeperHub sources used
+
+- https://github.com/KeeperHub/keeperhub/blob/staging/docs/index.md
+- https://github.com/KeeperHub/keeperhub/blob/staging/docs/getting-started/api.md
+- https://github.com/KeeperHub/keeperhub/blob/staging/docs/getting-started/cli.md
+- https://github.com/KeeperHub/keeperhub/blob/staging/docs/getting-started/agent.md
+- https://github.com/KeeperHub/keeperhub/blob/staging/docs/api/direct-execution.md
+- https://github.com/KeeperHub/keeperhub/blob/staging/docs/api/chains.md
+- https://github.com/KeeperHub/keeperhub/blob/staging/docs/guides/first-verified-transaction.md
+- https://github.com/KeeperHub/keeperhub/blob/staging/docs/wallet-management/gas.md
+- https://github.com/KeeperHub/keeperhub/blob/staging/docs/cli/commands/kh_doctor.md
+
+## Bounty fit
+
+This targets the **Best Onboarding UX Improvement** bounty as a **starter template + reproducible teardown + proposed docs fixes**.
+
+The goal is simple: help a new builder reach a real KeeperHub execution with safer defaults, while removing first-run wording that can send them down the wrong debugging path.
