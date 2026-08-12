@@ -6,6 +6,16 @@ The goal is not to rewrite KeeperHub's documentation. The current docs already c
 
 The useful contribution is to remove a few remaining first-run contradictions and make the safe path executable.
 
+## Upstream contribution
+
+The three findings below have been turned into a focused upstream documentation contribution:
+
+**KeeperHub PR #2043 — `docs: make first-write onboarding safer and more consistent`**
+
+https://github.com/KeeperHub/keeperhub/pull/2043
+
+The PR changes only three docs files and does not alter KeeperHub runtime or API behavior.
+
 ## Finding 1: the overview overstates how little funding a first run needs
 
 **Source:** `docs/index.md`
@@ -24,11 +34,9 @@ The first-verified-transaction guide also explicitly requires testnet funds in w
 
 A new builder can reasonably read the overview as "my first transfer needs no balance" and then debug an insufficient-value or insufficient-token error as if KeeperHub failed.
 
-### Proposed fix
+### Submitted fix
 
-Replace the blanket statement with a short distinction:
-
-> All four paths provision a Turnkey wallet on signup. Eligible EVM writes may receive sponsored gas, but sponsorship covers the network fee only. Fund any asset/value the transaction actually moves, and see Gas Management for sponsorship conditions.
+Replace the blanket statement with a short distinction explaining that gas sponsorship is conditional, covers network fees only, and does not provide the asset/value being transferred.
 
 ---
 
@@ -44,13 +52,9 @@ The wallet section says the organization's Turnkey wallet "gets a monthly allowa
 
 Hackathon builders are encouraged to start on testnet. The narrower wording can lead them to fund native gas unnecessarily or assume testnet execution cannot be sponsored.
 
-### Proposed fix
+### Submitted fix
 
-Use wording that defers to the authoritative gas reference:
-
-> Your organization receives a Turnkey wallet on signup. Eligible EVM writes can use KeeperHub gas sponsorship on supported networks, including supported testnets, subject to sender-route and gas-credit conditions.
-
-Then keep the existing explanation that sponsorship does not provide the value or token being moved.
+Use wording that covers eligible transactions on supported EVM mainnets and testnets while preserving the existing explanation that sponsorship does not provide the value or token being moved.
 
 ---
 
@@ -66,11 +70,9 @@ The direct contract-call section currently uses `--chain 1` for both the read an
 
 The command contains placeholder addresses, so it is not immediately executable, but examples establish defaults. A beginner guide should not normalize mainnet as the first write target when the rest of the onboarding guidance says testnet first.
 
-### Proposed fix
+### Submitted fix
 
-Use an enabled testnet in the example, for example Ethereum Sepolia `11155111`, and add:
-
-> Run `kh chain list` first and choose an enabled testnet for your first write.
+The upstream PR uses Ethereum Sepolia `11155111` in the beginner examples, explicitly says to start on a testnet, and points builders to `kh chain list` for the current catalog.
 
 ---
 
