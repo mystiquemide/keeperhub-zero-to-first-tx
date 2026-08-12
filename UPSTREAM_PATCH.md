@@ -1,16 +1,26 @@
-# Proposed KeeperHub documentation patch
+# KeeperHub documentation patch
 
 These are intentionally small changes. They remove contradictions without duplicating the existing first-verified-transaction guide.
 
+## Upstream status
+
+Submitted to KeeperHub as:
+
+**PR #2043 — `docs: make first-write onboarding safer and more consistent`**
+
+https://github.com/KeeperHub/keeperhub/pull/2043
+
+The upstream PR changes exactly three documentation files, with 10 additions and 7 deletions and no runtime or API changes.
+
 ## 1. `docs/index.md`
 
-### Current
+### Before
 
 > All four provision a Turnkey wallet automatically on signup and include a monthly allowance of sponsored gas, so a first run does not require funding anything.
 
-### Proposed
+### Submitted fix
 
-> All four provision a Turnkey wallet automatically on signup. Eligible EVM writes may use KeeperHub gas sponsorship, but sponsorship covers the network fee only, not the value or token being moved. See [Gas Management](/wallet-management/gas) for supported networks, sender-route requirements, and gas-credit conditions.
+Clarify that eligible EVM transactions may use KeeperHub gas sponsorship, but sponsorship covers network fees only and remains conditional on network, sender routing, mempool path, and available credits. Any value or tokens being transferred must still be funded.
 
 ### Reason
 
@@ -20,15 +30,15 @@ Avoids implying that an unfunded wallet can transfer value or tokens, and points
 
 ## 2. `docs/getting-started/api.md`
 
-### Current
+### Before
 
 > Your organization's Turnkey wallet is provisioned on signup and gets a monthly allowance of sponsored gas on mainnet.
 
-### Proposed
+### Submitted fix
 
-> Your organization's Turnkey wallet is provisioned on signup. Eligible EVM writes can use KeeperHub gas sponsorship on supported networks, including supported testnets, subject to sender-route and gas-credit conditions.
+State that eligible transactions on supported EVM mainnets and testnets may use the organization's sponsored-gas allowance.
 
-Keep the following existing paragraph explaining that sponsorship pays the network fee rather than the value moved.
+The existing explanation that sponsorship pays the network fee rather than the value moved remains in place.
 
 ### Reason
 
@@ -38,7 +48,7 @@ Aligns the getting-started page with `docs/wallet-management/gas.md`, which list
 
 ## 3. `docs/getting-started/cli.md`
 
-### Current
+### Before
 
 ```bash
 # Read a value
@@ -49,17 +59,20 @@ kh execute contract-call --chain 1 --contract 0x... --method transfer \
   --args '["0x...","1000"]' --wait
 ```
 
-### Proposed
+### Submitted fix
+
+The beginner direct-call section now explicitly recommends starting on a testnet and uses Ethereum Sepolia `11155111` for both examples:
 
 ```bash
-# Start with an enabled testnet. Use `kh chain list` to see the current catalog.
-# Read a value on Ethereum Sepolia
+# Read a value
 kh execute contract-call --chain 11155111 --contract 0x... --method balanceOf --args '["0x..."]'
 
-# Write on Ethereum Sepolia, and wait for the transaction
+# Write, and wait for the transaction
 kh execute contract-call --chain 11155111 --contract 0x... --method transfer \
   --args '["0x...","1000"]' --wait
 ```
+
+It also points builders to `kh chain list` to choose another enabled testnet.
 
 ### Reason
 
@@ -67,16 +80,10 @@ Keeps the beginner CLI page consistent with the Direct Execution Safe First-Writ
 
 ---
 
-## Suggested PR title
+## PR scope
 
-`docs: align first-run funding and testnet guidance`
+- `docs/index.md`
+- `docs/getting-started/api.md`
+- `docs/getting-started/cli.md`
 
-## Suggested PR body
-
-This patch tightens three onboarding details that can send a first-time builder down the wrong debugging path:
-
-- clarifies that gas sponsorship covers fees, not transferred value/assets
-- aligns API onboarding with the gas reference's supported-testnet sponsorship wording
-- changes the beginner CLI write example from Ethereum mainnet to Sepolia
-
-It deliberately does not add another first-transaction tutorial because KeeperHub already has `docs/guides/first-verified-transaction.md`. The goal is consistency across the entry points that lead builders into that guide.
+No product behavior, API behavior, dependencies, or runtime code are changed.
