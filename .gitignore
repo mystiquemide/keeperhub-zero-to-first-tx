@@ -1,0 +1,8 @@
+node_modules/
+
+# Never commit local KeeperHub credentials or RPC endpoints.
+.env
+.env.*
+!.env.example
+
+.DS_Store
