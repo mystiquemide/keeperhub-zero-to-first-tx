@@ -4,6 +4,16 @@ A dependency-free starter that turns KeeperHub's first-write safety guidance int
 
 Built after shipping **Nulvek** with KeeperHub for the Agents Onchain Hackathon.
 
+## Upstream contribution
+
+The documentation fixes from this audit are now submitted directly to KeeperHub:
+
+**KeeperHub PR #2043 — `docs: make first-write onboarding safer and more consistent`**
+
+https://github.com/KeeperHub/keeperhub/pull/2043
+
+The PR is intentionally small: three documentation files, 10 additions and 7 deletions, with no runtime or API changes.
+
 ## Why this contribution exists
 
 KeeperHub already has good onboarding material, including:
@@ -96,13 +106,13 @@ See [`.env.example`](.env.example) for every option.
 
 ## The onboarding audit
 
-[`ONBOARDING_AUDIT.md`](ONBOARDING_AUDIT.md) documents three current inconsistencies against KeeperHub's own `staging` documentation:
+[`ONBOARDING_AUDIT.md`](ONBOARDING_AUDIT.md) documents three current inconsistencies against KeeperHub's `staging` documentation:
 
 1. **Funding expectation:** the overview says a first run does not require funding anything, while the gas reference correctly says sponsorship covers fees only, not the transferred asset/value, and is conditional on the execution route.
 2. **Testnet sponsorship wording:** API onboarding describes the allowance as mainnet sponsored gas, while the gas reference lists supported testnets too and says testnet usage is not charged against the monthly cap.
 3. **Beginner CLI default:** the CLI getting-started page demonstrates its first write with Ethereum mainnet chain `1`, while KeeperHub's Safe First-Write Sequence and verified-transaction guide explicitly recommend starting on testnet.
 
-[`UPSTREAM_PATCH.md`](UPSTREAM_PATCH.md) contains the minimal proposed wording changes rather than another competing tutorial.
+[`UPSTREAM_PATCH.md`](UPSTREAM_PATCH.md) records the minimal fixes and links the live upstream PR.
 
 ## Project structure
 
@@ -112,7 +122,7 @@ scripts/first-write.mjs  Simulate-first testnet transfer flow
 src/keeperhub.mjs        KeeperHub HTTP, idempotency, polling, RPC helpers
 test/                    Dependency-free Node tests
 ONBOARDING_AUDIT.md      Reproducible onboarding findings
-UPSTREAM_PATCH.md        Minimal upstream documentation patch
+UPSTREAM_PATCH.md        Submitted upstream documentation patch
 ```
 
 ## Official KeeperHub sources used
@@ -129,6 +139,6 @@ UPSTREAM_PATCH.md        Minimal upstream documentation patch
 
 ## Bounty fit
 
-This targets the **Best Onboarding UX Improvement** bounty as a **starter template + reproducible teardown + proposed docs fixes**.
+This targets the **Best Onboarding UX Improvement** bounty as a **starter template + reproducible teardown + actual upstream docs PR**.
 
 The goal is simple: help a new builder reach a real KeeperHub execution with safer defaults, while removing first-run wording that can send them down the wrong debugging path.
