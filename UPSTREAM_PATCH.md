@@ -4,13 +4,13 @@ These are intentionally small changes. They remove contradictions without duplic
 
 ## Upstream status
 
-Submitted to KeeperHub as:
+Accepted and merged into KeeperHub's official `staging` branch on August 13, 2026:
 
 **PR #2043 — `docs: make first-write onboarding safer and more consistent`**
 
 https://github.com/KeeperHub/keeperhub/pull/2043
 
-The upstream PR changes exactly three documentation files, with 10 additions and 7 deletions and no runtime or API changes.
+The merged upstream PR changes exactly three documentation files, with 10 additions and 7 deletions and no runtime or API changes.
 
 ## 1. `docs/index.md`
 
@@ -18,7 +18,7 @@ The upstream PR changes exactly three documentation files, with 10 additions and
 
 > All four provision a Turnkey wallet automatically on signup and include a monthly allowance of sponsored gas, so a first run does not require funding anything.
 
-### Submitted fix
+### Accepted fix
 
 Clarify that eligible EVM transactions may use KeeperHub gas sponsorship, but sponsorship covers network fees only and remains conditional on network, sender routing, mempool path, and available credits. Any value or tokens being transferred must still be funded.
 
@@ -34,7 +34,7 @@ Avoids implying that an unfunded wallet can transfer value or tokens, and points
 
 > Your organization's Turnkey wallet is provisioned on signup and gets a monthly allowance of sponsored gas on mainnet.
 
-### Submitted fix
+### Accepted fix
 
 State that eligible transactions on supported EVM mainnets and testnets may use the organization's sponsored-gas allowance.
 
@@ -59,9 +59,9 @@ kh execute contract-call --chain 1 --contract 0x... --method transfer \
   --args '["0x...","1000"]' --wait
 ```
 
-### Submitted fix
+### Accepted fix
 
-The beginner direct-call section now explicitly recommends starting on a testnet and uses Ethereum Sepolia `11155111` for both examples:
+The beginner direct-call section explicitly recommends starting on a testnet and uses Ethereum Sepolia `11155111` for both examples:
 
 ```bash
 # Read a value
