@@ -1,26 +1,26 @@
 # KeeperHub onboarding consistency audit
 
-This audit was produced from the current `staging` branch of `KeeperHub/keeperhub` while turning the official first-write guidance into an executable starter.
+This audit was produced from KeeperHub's `staging` documentation while turning the official first-write guidance into an executable starter.
 
-The goal is not to rewrite KeeperHub's documentation. The current docs already contain a strong [Zero to a Verified Onchain Transaction](https://github.com/KeeperHub/keeperhub/blob/staging/docs/guides/first-verified-transaction.md) guide and a built-in [`kh doctor`](https://github.com/KeeperHub/keeperhub/blob/staging/docs/cli/commands/kh_doctor.md).
+The goal is not to rewrite KeeperHub's documentation. The docs already contain a strong [Zero to a Verified Onchain Transaction](https://github.com/KeeperHub/keeperhub/blob/staging/docs/guides/first-verified-transaction.md) guide and a built-in [`kh doctor`](https://github.com/KeeperHub/keeperhub/blob/staging/docs/cli/commands/kh_doctor.md).
 
-The useful contribution is to remove a few remaining first-run contradictions and make the safe path executable.
+The useful contribution was to remove a few remaining first-run contradictions and make the safe path executable.
 
 ## Upstream contribution
 
-The three findings below have been turned into a focused upstream documentation contribution:
+The three findings below were turned into a focused upstream documentation contribution that KeeperHub accepted and merged into `staging` on August 13, 2026:
 
 **KeeperHub PR #2043 — `docs: make first-write onboarding safer and more consistent`**
 
 https://github.com/KeeperHub/keeperhub/pull/2043
 
-The PR changes only three docs files and does not alter KeeperHub runtime or API behavior.
+The merged PR changes only three docs files and does not alter KeeperHub runtime or API behavior.
 
-## Finding 1: the overview overstates how little funding a first run needs
+## Finding 1: the overview overstated how little funding a first run needs
 
 **Source:** `docs/index.md`
 
-The Getting Started section currently says all four paths include sponsored gas, "so a first run does not require funding anything."
+Before PR #2043, the Getting Started section said all four paths included sponsored gas, "so a first run does not require funding anything."
 
 **Conflict:** `docs/wallet-management/gas.md` is more precise:
 
@@ -32,47 +32,47 @@ The first-verified-transaction guide also explicitly requires testnet funds in w
 
 ### Why this matters
 
-A new builder can reasonably read the overview as "my first transfer needs no balance" and then debug an insufficient-value or insufficient-token error as if KeeperHub failed.
+A new builder could reasonably read the old overview as "my first transfer needs no balance" and then debug an insufficient-value or insufficient-token error as if KeeperHub failed.
 
-### Submitted fix
+### Accepted fix
 
-Replace the blanket statement with a short distinction explaining that gas sponsorship is conditional, covers network fees only, and does not provide the asset/value being transferred.
+KeeperHub now distinguishes conditional gas sponsorship from the asset/value being transferred and points builders to the authoritative gas guidance.
 
 ---
 
-## Finding 2: API getting-started narrows sponsorship to mainnet while the gas reference includes supported testnets
+## Finding 2: API getting-started narrowed sponsorship to mainnet while the gas reference includes supported testnets
 
 **Source:** `docs/getting-started/api.md`
 
-The wallet section says the organization's Turnkey wallet "gets a monthly allowance of sponsored gas on mainnet."
+Before PR #2043, the wallet section said the organization's Turnkey wallet "gets a monthly allowance of sponsored gas on mainnet."
 
 **Conflict:** `docs/wallet-management/gas.md` says supported sponsorship networks include Ethereum, Base, Polygon and Arbitrum **plus their supported testnets**, and that testnet usage is not charged against the monthly cap.
 
 ### Why this matters
 
-Hackathon builders are encouraged to start on testnet. The narrower wording can lead them to fund native gas unnecessarily or assume testnet execution cannot be sponsored.
+Hackathon builders are encouraged to start on testnet. The narrower wording could lead them to fund native gas unnecessarily or assume testnet execution cannot be sponsored.
 
-### Submitted fix
+### Accepted fix
 
-Use wording that covers eligible transactions on supported EVM mainnets and testnets while preserving the existing explanation that sponsorship does not provide the value or token being moved.
+KeeperHub now states that eligible transactions on supported EVM mainnets and testnets may use the organization's sponsored-gas allowance while preserving the explanation that sponsorship does not provide the value or token being moved.
 
 ---
 
-## Finding 3: the beginner CLI page demonstrates a write on Ethereum mainnet
+## Finding 3: the beginner CLI page demonstrated a write on Ethereum mainnet
 
 **Source:** `docs/getting-started/cli.md`
 
-The direct contract-call section currently uses `--chain 1` for both the read and the write example.
+Before PR #2043, the direct contract-call section used `--chain 1` for both the read and write examples.
 
 **Conflict:** the Direct Execution API's Safe First-Write Sequence and the first-verified-transaction guide both explicitly recommend starting with a testnet.
 
 ### Why this matters
 
-The command contains placeholder addresses, so it is not immediately executable, but examples establish defaults. A beginner guide should not normalize mainnet as the first write target when the rest of the onboarding guidance says testnet first.
+The command contained placeholder addresses, so it was not immediately executable, but examples establish defaults. A beginner guide should not normalize mainnet as the first write target when the rest of the onboarding guidance says testnet first.
 
-### Submitted fix
+### Accepted fix
 
-The upstream PR uses Ethereum Sepolia `11155111` in the beginner examples, explicitly says to start on a testnet, and points builders to `kh chain list` for the current catalog.
+KeeperHub now uses Ethereum Sepolia `11155111` in the beginner examples, explicitly says to start on a testnet, and points builders to `kh chain list` for the current catalog.
 
 ---
 
