@@ -30,17 +30,17 @@ The starter refuses mainnet by default, never prints the API key, does not blind
 
 ### 2. Remove contradictory expectations in the current docs
 
-The audit identifies three reproducible inconsistencies in KeeperHub's current `staging` documentation:
+The audit identified three reproducible inconsistencies in KeeperHub's `staging` documentation:
 
-- the overview implies a first run needs no funding, while sponsorship covers gas only and remains conditional
-- API onboarding describes sponsored gas as mainnet-only even though the gas reference includes supported testnets
-- the beginner CLI page uses Ethereum mainnet chain `1` for its write example while the official safe-first-write guidance says to start on testnet
+- the overview implied a first run needed no funding, while sponsorship covers gas only and remains conditional
+- API onboarding described sponsored gas as mainnet-only even though the gas reference includes supported testnets
+- the beginner CLI page used Ethereum mainnet chain `1` for its write example while the official safe-first-write guidance says to start on testnet
 
-These fixes are not only proposed. They have been submitted upstream to KeeperHub as a focused docs PR.
+Those fixes were accepted and merged into KeeperHub's official `staging` branch on August 13, 2026.
 
 ## Upstream contribution
 
-**KeeperHub PR #2043**
+**KeeperHub PR #2043 — merged**
 
 https://github.com/KeeperHub/keeperhub/pull/2043
 
@@ -48,7 +48,7 @@ Title: `docs: make first-write onboarding safer and more consistent`
 
 Scope: 3 documentation files, 10 additions, 7 deletions, no runtime or API changes.
 
-The PR:
+The merged PR:
 
 - clarifies conditional gas sponsorship and asset/value funding
 - aligns API onboarding with supported EVM testnet sponsorship
@@ -62,7 +62,7 @@ This project keeps the official docs as the source of truth and turns their exec
 
 ## Contribution type
 
-Starter template + onboarding teardown + upstream KeeperHub documentation PR.
+Starter template + onboarding teardown + accepted and merged upstream KeeperHub documentation contribution.
 
 ## Repository
 
