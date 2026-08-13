@@ -6,13 +6,13 @@ Built after shipping **Nulvek** with KeeperHub for the Agents Onchain Hackathon.
 
 ## Upstream contribution
 
-The documentation fixes from this audit are now submitted directly to KeeperHub:
+The documentation fixes from this audit were accepted and merged into KeeperHub's official `staging` branch on August 13, 2026:
 
 **KeeperHub PR #2043 — `docs: make first-write onboarding safer and more consistent`**
 
 https://github.com/KeeperHub/keeperhub/pull/2043
 
-The PR is intentionally small: three documentation files, 10 additions and 7 deletions, with no runtime or API changes.
+The merged PR is intentionally small: three documentation files, 10 additions and 7 deletions, with no runtime or API changes.
 
 ## Why this contribution exists
 
@@ -27,7 +27,7 @@ So this repo deliberately does **not** add another generic tutorial or another d
 Instead it contributes two things that are still useful:
 
 1. **An executable safe-first-write starter** that applies the official guidance by default.
-2. **A reproducible docs consistency audit** with small upstream fixes that remove contradictory first-run expectations.
+2. **A reproducible docs consistency audit** whose focused fixes were accepted upstream by KeeperHub.
 
 ## What the starter enforces
 
@@ -106,13 +106,13 @@ See [`.env.example`](.env.example) for every option.
 
 ## The onboarding audit
 
-[`ONBOARDING_AUDIT.md`](ONBOARDING_AUDIT.md) documents three current inconsistencies against KeeperHub's `staging` documentation:
+[`ONBOARDING_AUDIT.md`](ONBOARDING_AUDIT.md) records the three inconsistencies identified in KeeperHub's `staging` documentation before PR #2043 was merged:
 
-1. **Funding expectation:** the overview says a first run does not require funding anything, while the gas reference correctly says sponsorship covers fees only, not the transferred asset/value, and is conditional on the execution route.
-2. **Testnet sponsorship wording:** API onboarding describes the allowance as mainnet sponsored gas, while the gas reference lists supported testnets too and says testnet usage is not charged against the monthly cap.
-3. **Beginner CLI default:** the CLI getting-started page demonstrates its first write with Ethereum mainnet chain `1`, while KeeperHub's Safe First-Write Sequence and verified-transaction guide explicitly recommend starting on testnet.
+1. **Funding expectation:** the overview said a first run did not require funding anything, while the gas reference correctly said sponsorship covers fees only, not the transferred asset/value, and is conditional on the execution route.
+2. **Testnet sponsorship wording:** API onboarding described the allowance as mainnet sponsored gas, while the gas reference listed supported testnets too and said testnet usage is not charged against the monthly cap.
+3. **Beginner CLI default:** the CLI getting-started page demonstrated its first write with Ethereum mainnet chain `1`, while KeeperHub's Safe First-Write Sequence and verified-transaction guide explicitly recommended starting on testnet.
 
-[`UPSTREAM_PATCH.md`](UPSTREAM_PATCH.md) records the minimal fixes and links the live upstream PR.
+[`UPSTREAM_PATCH.md`](UPSTREAM_PATCH.md) records the accepted fixes and links the merged upstream PR.
 
 ## Project structure
 
@@ -122,7 +122,7 @@ scripts/first-write.mjs  Simulate-first testnet transfer flow
 src/keeperhub.mjs        KeeperHub HTTP, idempotency, polling, RPC helpers
 test/                    Dependency-free Node tests
 ONBOARDING_AUDIT.md      Reproducible onboarding findings
-UPSTREAM_PATCH.md        Submitted upstream documentation patch
+UPSTREAM_PATCH.md        Accepted upstream documentation patch
 ```
 
 ## Official KeeperHub sources used
@@ -139,6 +139,6 @@ UPSTREAM_PATCH.md        Submitted upstream documentation patch
 
 ## Bounty fit
 
-This targets the **Best Onboarding UX Improvement** bounty as a **starter template + reproducible teardown + actual upstream docs PR**.
+This targets the **Best Onboarding UX Improvement** bounty as a **starter template + reproducible teardown + merged upstream docs contribution**.
 
 The goal is simple: help a new builder reach a real KeeperHub execution with safer defaults, while removing first-run wording that can send them down the wrong debugging path.
